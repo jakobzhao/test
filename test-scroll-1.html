@@ -170,6 +170,19 @@
       scroller.resize();
     }
 
+
+    //spinGlobe
+    var lastNow = Date.now();
+    rotationSpeed = 0.05;
+
+    function spinGlobe(scene, time) {
+      var now = Date.now();
+      var spinRate = rotationSpeed; //0.08;
+      var delta = (now - lastNow) / 1000;
+      lastNow = now;
+      viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, spinRate * delta);
+    };
+
     // scrollama event handlers
     function handleStepEnter(response) {
       console.log(response);
@@ -183,8 +196,21 @@
       // update graphic based on step
       figure.select("p").text(response.index + 1);
 
+
+
+
+
+      if (response.index == 0) {
+
+        // spinGlobe(viewer, 0.05);
+        viewer.scene.postRender.removeEventListener(spinGlobe);
+      }
+
       if (response.index == 1) {
-        var center = Cesium.Cartesian3.fromDegrees(-82.5, 35.3);
+
+        // spinGlobe(viewer, 0.05);
+        // spinGlobe(viewer, 0.0);
+        var center = Cesium.Cartesian3.fromDegrees(-82.5, 35.3, 500000); //lat, lon, height
         //  viewer.camera.flyTo(center, new Cesium.Cartesian3(0.0, 0.0, 4200000.0));
         // alert("success");
         //cesium camera fly to
@@ -201,9 +227,10 @@
     }
 
     function handleStepExit(response) {
-      if(response.index == 1) {
 
+      if (response.index == 1) {
         viewer.scene.camera.flyHome();
+
       }
 
     }
@@ -295,6 +322,13 @@
       // viewer.scene.screenSpaceCameraController.enableTranslate = false;
       // viewer.scene.screenSpaceCameraController.enableTilt = false;
       // viewer.scene.screenSpaceCameraController.enableLook = false;
+
+
+      // spin the globe
+      viewer.scene.postRender.addEventListener(spinGlobe);
+
+
+
 
 
 
