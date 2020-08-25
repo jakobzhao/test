@@ -40,7 +40,7 @@
     article {
       position: relative;
       padding: 0;
-      max-width: 20rem;
+      max-width: 30rem;
       margin: 0 auto;
     }
 
@@ -283,10 +283,10 @@
       // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
 
       viewer = new Cesium.Viewer('cesiumContainer', {
-        // imageryProvider: new Cesium.MapboxImageryProvider({
-        //   mapId: 'mapbox.dark',
-        //   accessToken: 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
-        // }),
+        imageryProvider: new Cesium.MapboxImageryProvider({
+          mapId: 'mapbox.dark',
+          accessToken: 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
+        }),
         skyBox: false,
         skyAtmosphere: false,
         contextOptions: {
