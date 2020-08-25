@@ -4,15 +4,43 @@
   <meta charset="utf-8">
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.72/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.72/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-</head>
+  <link href="css/main.css" rel="stylesheet">
 
+<!-- <style type="text/css">
+      @import url(Cesium-1.72/Apps/Sandcastle/templates/bucket.css);
+</style> -->
+</head>
 <body>
-  <div id="cesiumContainer" style="width:1000px; height:1000px"></div>
+  <div id="cesiumContainer" class="fullWindow"></div>
+  <!-- <div id="loadingOverlay"><h1>Loading...</h1></div> -->
+  <!-- <div id="toolbar"></div> -->
+
   <script>
     //Cesium.Ion.defaultAccessToken = 'your_access_token';
-    var viewer = new Cesium.Viewer('cesiumContainer', {
-      terrainProvider: Cesium.createWorldTerrain()
-    });
+ // var widget = new Cesium.CesiumWidget("cesiumContainer");
+
+// var viewer = new Cesium.Viewer('cesiumContainer', {
+//   terrainProvider: Cesium.createWorldTerrain()
+// });
+
+var viewer = new Cesium.Viewer('cesiumContainer', {
+    imageryProvider : new Cesium.MapboxImageryProvider({
+            mapId : 'mapbox.dark',
+            accessToken : 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
+    }),
+    vrButton: false,  // virtual reality support
+    sceneModePicker: false, // 2d, 2.5d and 3d
+    navigationHelpButton: false,
+    baseLayerPicker : false,
+    fullscreenButton: false,
+    geocoder: false,
+    homeButton: false,
+    animation: false,
+    timeline: false
+});
+
+// hide the credit banner, however you should credit the map libraries or data somewhere else.
+  document.getElementsByClassName("cesium-widget-credits")[0].style.visibility = "hidden";
   </script>
 </body>
 
