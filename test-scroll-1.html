@@ -44,6 +44,7 @@
       margin: 0 auto;
     }
 
+
     figure {
       position: -webkit-sticky;
       position: sticky;
@@ -217,20 +218,36 @@
       // });
 
       var viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: new Cesium.MapboxImageryProvider({
-          mapId: 'mapbox.dark',
-          accessToken: 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
-        }),
+        // imageryProvider: new Cesium.MapboxImageryProvider({
+        //   mapId: 'mapbox.dark',
+        //   accessToken: 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
+        // }),
+        skyBox: false,
+        skyAtmosphere: false,
+        contextOptions: {
+          webgl: {
+            alpha: true
+          }
+        },
+
         vrButton: false, // virtual reality support
         sceneModePicker: false, // 2d, 2.5d and 3d
         navigationHelpButton: false,
         baseLayerPicker: false,
+        creditsDisplay: false,
         fullscreenButton: false,
+        // scene3DOnly: true,
         geocoder: false,
         homeButton: false,
         animation: false,
         timeline: false
       });
+
+      //Set the background of the scene to transparent
+      viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
+      //HDR needs to be disable for transparent backgrounds
+      // viewer.scene.highDynamicRange = false;
+      // viewer.scene.fxaa = false;
 
 
       // camera tutorial: https://sandcastle.cesium.com/?src=Camera%20Tutorial.html
