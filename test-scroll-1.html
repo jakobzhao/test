@@ -148,6 +148,11 @@
     // initialize the scrollama
     var scroller = scrollama();
 
+
+    // initialize the cesium globe
+
+    var viewer = null;
+
     // generic window resize listener event
     function handleResize() {
       // 1. update height of step elements
@@ -177,6 +182,30 @@
 
       // update graphic based on step
       figure.select("p").text(response.index + 1);
+
+      if (response.index == 1) {
+        var center = Cesium.Cartesian3.fromDegrees(-82.5, 35.3);
+        //  viewer.camera.flyTo(center, new Cesium.Cartesian3(0.0, 0.0, 4200000.0));
+        // alert("success");
+        //cesium camera fly to
+        viewer.camera.flyTo({
+          destination: center,
+          orientation: {
+            heading: Cesium.Math.toRadians(0),
+            pitch: Cesium.Math.toRadians(-45),
+            roll: Cesium.Math.toRadians(0)
+          },
+          complete: function() {}
+        });
+      }
+    }
+
+    function handleStepExit(response) {
+      if(response.index == 1) {
+
+        viewer.scene.camera.flyHome();
+      }
+
     }
 
     function setupStickyfill() {
@@ -200,15 +229,14 @@
           offset: 0.33,
           debug: true
         })
-        .onStepEnter(handleStepEnter);
+        .onStepEnter(handleStepEnter)
+        .onStepExit(handleStepExit);
 
       // setup resize event
       window.addEventListener("resize", handleResize);
 
 
       // intialize the cesium virtual globe
-
-
 
       //Cesium.Ion.defaultAccessToken = 'your_access_token';
       // var widget = new Cesium.CesiumWidget("cesiumContainer");
@@ -217,7 +245,17 @@
       //   terrainProvider: Cesium.createWorldTerrain()
       // });
 
-      var viewer = new Cesium.Viewer('cesiumContainer', {
+      // var west = 122.0;
+      // var south = 33.0;
+      // var east = 130.0;
+      // var north = 47.0;
+      //
+      // var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
+      //
+      // Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+      // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
+
+      viewer = new Cesium.Viewer('cesiumContainer', {
         // imageryProvider: new Cesium.MapboxImageryProvider({
         //   mapId: 'mapbox.dark',
         //   accessToken: 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpenh0dG41ZjAyY3gzMXFsdTJqbm5oNmwifQ.ucAGT19EfvxX2EUaHUwAxA'
@@ -229,7 +267,7 @@
             alpha: true
           }
         },
-
+        // terrainProvider: Cesium.createWorldTerrain(),// add 3d terrain
         vrButton: false, // virtual reality support
         sceneModePicker: false, // 2d, 2.5d and 3d
         navigationHelpButton: false,
@@ -243,11 +281,12 @@
         timeline: false
       });
 
+
       //Set the background of the scene to transparent
       viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       //HDR needs to be disable for transparent backgrounds
-      // viewer.scene.highDynamicRange = false;
-      // viewer.scene.fxaa = false;
+      viewer.scene.highDynamicRange = false;
+      viewer.scene.fxaa = false;
 
 
       // camera tutorial: https://sandcastle.cesium.com/?src=Camera%20Tutorial.html
@@ -257,10 +296,13 @@
       // viewer.scene.screenSpaceCameraController.enableTilt = false;
       // viewer.scene.screenSpaceCameraController.enableLook = false;
 
+
+
+
+
+
       // hide the credit banner, however you should credit the map libraries or data somewhere else.
       document.getElementsByClassName("cesium-widget-credits")[0].style.visibility = "hidden";
-
-
 
     }
 
